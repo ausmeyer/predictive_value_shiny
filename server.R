@@ -3,23 +3,49 @@ library(shiny)
 # Define server logic required to generate and plot a random distribution
 shinyServer(function(input, output, session) {
   
-  calc.metrics <- reactive({
-    prevalence.point <- input$prev
-    n <- input$n
+  dataInputFitSensSpec <- reactive({
+    data.frame(n = input$n, 
+               prev = input$prev,
+               cutoff = input$cutoff,
+               disease_mean = input$disease_mean,
+               disease_spread = input$disease_spread,
+               no_disease_mean = input$no_disease_mean,
+               no_disease_spread = input$no_disease_spread,
+               sensitivity = isolate({input$sens}),
+               specificity = isolate({input$spec})
+    )
+  })
+  
+  dataInputChangedSensSpec <- reactive({
+    data.frame(n = input$n, 
+               prev = input$prev,
+               cutoff = isolate({input$cutoff}),
+               disease_mean = isolate({input$disease_mean}),
+               disease_spread = isolate({input$disease_spread}),
+               no_disease_mean = isolate({input$no_disease_mean}),
+               no_disease_spread = isolate({input$no_disease_spread}),
+               sensitivity = input$sens,
+               specificity = input$spec
+    )
+  })
+  
+  calc.metrics.changedPop <- function() {
+    prevalence.point <- dataInputFitSensSpec()$prev
+    n <- dataInputFitSensSpec()$n 
     with.disease <- prevalence.point * n
     without.disease <- n - with.disease
     
     calc.sensitivity <- function() {
       with.disease <- prevalence.point * n
-      with.disease.distribution <- rnorm(with.disease, mean = input$disease_mean, sd = input$disease_spread)
-      TP <- sum(with.disease.distribution >= input$cutoff)
+      with.disease.distribution <- rnorm(with.disease, mean = dataInputFitSensSpec()$disease_mean, sd = dataInputFitSensSpec()$disease_spread)
+      TP <- sum(with.disease.distribution >= dataInputFitSensSpec()$cutoff)
       TP / with.disease
     }
     
     calc.specificity <- function() {
       without.disease <- n - prevalence.point * n
-      without.disease.distribution <- rnorm(without.disease, mean = input$no_disease_mean, sd = input$no_disease_spread)
-      TN <- sum(without.disease.distribution < input$cutoff)
+      without.disease.distribution <- rnorm(without.disease, mean = dataInputFitSensSpec()$no_disease_mean, sd = dataInputFitSensSpec()$no_disease_spread)
+      TN <- sum(without.disease.distribution < dataInputFitSensSpec()$cutoff)
       TN / without.disease
     }
     
@@ -27,50 +53,103 @@ shinyServer(function(input, output, session) {
     calculated.specificity <- calc.specificity()
     
     return(c(calculated.sensitivity, calculated.specificity))
-  })
+  }
   
-  calc.NPV <- reactive({
+  calc.NPV.changedPop <- function() {
     prevalence <- seq(0, 1, by = 0.01)
-    prevalence.point <- input$prev
-    n <- input$n
+    prevalence.point <- dataInputFitSensSpec()$prev
+    n <- dataInputFitSensSpec()$n
     
-    sensitivity <- input$sens
-    specificity <- input$spec
+    sensitivity <- calc.metrics.changedPop()[1]
+    specificity <- calc.metrics.changedPop()[2]
     
     TP <- n * prevalence * sensitivity                           # people testing correctly positive
     TN <- (n - (n * prevalence)) * specificity                   # people testing correctly negative
     FP <- (n - (n * prevalence)) * (1 - specificity)             # people who do not have disease but test positive
     FN <- n * prevalence * (1 - sensitivity)                     # people who have disease but test negative
     NPV <- TN / (TN + FN)
-  })
+  }
   
-  calc.PPV <- reactive({
+  calc.PPV.changedPop <- function() {
     prevalence <- seq(0, 1, by = 0.01)
-    prevalence.point <- input$prev
-    n <- input$n
+    prevalence.point <- dataInputFitSensSpec()$prev
+    n <- dataInputFitSensSpec()$n
     
-    sensitivity <- input$sens
-    specificity <- input$spec
+    sensitivity <- calc.metrics.changedPop()[1]
+    specificity <- calc.metrics.changedPop()[2]
     
     TP <- n * prevalence * sensitivity                           # people testing correctly positive
     TN <- (n - (n * prevalence)) * specificity                   # people testing correctly negative
     FP <- (n - (n * prevalence)) * (1 - specificity)             # people who do not have disease but test positive
     FN <- n * prevalence * (1 - sensitivity)                     # people who have disease but test negative
     PPV <- TP / (TP + FP)
-  })
+  }
   
-  renderPop.changedPop <- reactive({
+  calc.metrics.constantPop <- function() {
+    prevalence.point <- dataInputChangedSensSpec()$prev
+    n <- dataInputChangedSensSpec()$n 
+    with.disease <- prevalence.point * n
+    without.disease <- n - with.disease
+    
+    calc.sensitivity <- function() {
+      with.disease <- prevalence.point * n
+      with.disease.distribution <- rnorm(with.disease, mean = dataInputChangedSensSpec()$disease_mean, sd = dataInputChangedSensSpec()$disease_spread)
+      TP <- sum(with.disease.distribution >= dataInputChangedSensSpec()$cutoff)
+      TP / with.disease
+    }
+    
+    calc.specificity <- function() {
+      without.disease <- n - prevalence.point * n
+      without.disease.distribution <- rnorm(without.disease, mean = dataInputChangedSensSpec()$no_disease_mean, sd = dataInputChangedSensSpec()$no_disease_spread)
+      TN <- sum(without.disease.distribution < dataInputChangedSensSpec()$cutoff)
+      TN / without.disease
+    }
+    
+    calculated.sensitivity <- calc.sensitivity()
+    calculated.specificity <- calc.specificity()
+    
+    return(c(calculated.sensitivity, calculated.specificity))
+  }
+  
+  calc.NPV.constantPop <- function() {
+    prevalence <- seq(0, 1, by = 0.01)
+    prevalence.point <- dataInputChangedSensSpec()$prev
+    n <- dataInputChangedSensSpec()$n
+    
+    sensitivity <- dataInputChangedSensSpec()$sensitivity
+    specificity <- dataInputChangedSensSpec()$specificity
+    
+    TP <- n * prevalence * sensitivity                           # people testing correctly positive
+    TN <- (n - (n * prevalence)) * specificity                   # people testing correctly negative
+    FP <- (n - (n * prevalence)) * (1 - specificity)             # people who do not have disease but test positive
+    FN <- n * prevalence * (1 - sensitivity)                     # people who have disease but test negative
+    NPV <- TN / (TN + FN)
+  }
+  
+  calc.PPV.constantPop <- function() {
+    prevalence <- seq(0, 1, by = 0.01)
+    prevalence.point <- dataInputChangedSensSpec()$prev
+    n <- dataInputChangedSensSpec()$n
+    
+    sensitivity <- dataInputChangedSensSpec()$sensitivity
+    specificity <- dataInputChangedSensSpec()$specificity
+    
+    TP <- n * prevalence * sensitivity                           # people testing correctly positive
+    TN <- (n - (n * prevalence)) * specificity                   # people testing correctly negative
+    FP <- (n - (n * prevalence)) * (1 - specificity)             # people who do not have disease but test positive
+    FN <- n * prevalence * (1 - sensitivity)                     # people who have disease but test negative
+    PPV <- TP / (TP + FP)
+  }
+  
+  renderPop.changedPop <- function() {
     library(ggplot2)
     library(cowplot)
     library(grid)
     
-    prevalence.point <- input$prev
-    n <- input$n
+    prevalence.point <- dataInputFitSensSpec()$prev
+    n <- dataInputFitSensSpec()$n
     with.disease <- prevalence.point * n
     without.disease <- n - with.disease
-    
-    sensitivity <- round(calc.metrics()[1], digits = 2)
-    specificity <- round(calc.metrics()[2], digits = 2)
     
     plot.function <- function(disease.distribution, no.disease.distribution, sens, spec, test_cutoff) {
       prevalence.plot <- ggplot(data.frame(data = c(disease.distribution, no.disease.distribution), 
@@ -91,26 +170,27 @@ shinyServer(function(input, output, session) {
       grid.draw(gg2)
     }
     
-    with.disease.distribution <- rnorm(with.disease, mean = input$disease_mean, sd = input$disease_spread)
-    without.disease.distribution <- rnorm(without.disease, mean = input$no_disease_mean, sd = input$no_disease_spread)
+    sensitivity.local <- round(calc.metrics.changedPop()[1], digits = 2)
+    specificity.local <- round(calc.metrics.changedPop()[2], digits = 2)
     
-    plot.function(with.disease.distribution, without.disease.distribution, sensitivity, specificity, input$cutoff)
+    with.disease.distribution <- rnorm(with.disease, mean = dataInputFitSensSpec()$disease_mean, sd = dataInputFitSensSpec()$disease_spread)
+    without.disease.distribution <- rnorm(without.disease, mean = dataInputFitSensSpec()$no_disease_mean, sd = dataInputFitSensSpec()$no_disease_spread)
     
-    
-  })
+    plot.function(with.disease.distribution, without.disease.distribution, sensitivity.local, specificity.local, dataInputFitSensSpec()$cutoff)
+  }
   
-  renderPop.constantPop <- reactive({
+  renderPop.constantPop <- function () {
     library(ggplot2)
     library(cowplot)
     library(grid)
     
-    prevalence.point <- input$prev
-    n <- input$n
+    prevalence.point <- dataInputChangedSensSpec()$prev
+    n <- dataInputChangedSensSpec()$n
     with.disease <- prevalence.point * n
     without.disease <- n - with.disease
     
-    sensitivity <- input$sens
-    specificity <- input$spec
+    sensitivity <- dataInputChangedSensSpec()$sensitivity
+    specificity <- dataInputChangedSensSpec()$specificity
     
     plot.function <- function(disease.distribution, no.disease.distribution, sens, spec, test_cutoff) {
       prevalence.plot <- ggplot(data.frame(data = c(disease.distribution, no.disease.distribution), 
@@ -146,11 +226,10 @@ shinyServer(function(input, output, session) {
     with.disease.distribution <- rnorm(with.disease, mean = optim.distribution$par[1], sd = optim.distribution$par[2])
     without.disease.distribution <- rnorm(without.disease, mean = optim.distribution$par[3], sd = optim.distribution$par[4])
     
-    print(mean(with.disease.distribution))
     TP <- sum(with.disease.distribution >= optim.distribution$par[5])
     calculated.sensitivity <- round(TP / with.disease, digits = 2)
-    print(mean(without.disease.distribution))
-    TN <- sum(without.disease.distribution < optim.distribution$par[5])
+
+        TN <- sum(without.disease.distribution < optim.distribution$par[5])
     calculated.specificity <- round(TN / without.disease, digits = 2)
     
     updateSliderInput(session, "disease_mean", value = mean(with.disease.distribution))
@@ -160,9 +239,9 @@ shinyServer(function(input, output, session) {
     updateSliderInput(session, "cutoff", value = optim.distribution$par[5])
     
     plot.function(with.disease.distribution, without.disease.distribution, calculated.sensitivity, calculated.specificity, optim.distribution$par[5])
-  })
+  }
   
-  renderPPV.changedPop <- reactive({
+  renderPPV.changedPop <- function() {
     library(ggplot2)
     library(cowplot)
     
@@ -178,37 +257,22 @@ shinyServer(function(input, output, session) {
       show(npvplot)
     }
     
-    calc.PPV.local <- function(sens, spec) {
-      prevalence <- seq(0, 1, by = 0.01)
-      prevalence.point <- input$prev
-      n <- input$n
-      
-      sensitivity <- sens
-      specificity <- spec
-      
-      TP <- n * prevalence * sensitivity                           # people testing correctly positive
-      TN <- (n - (n * prevalence)) * specificity                   # people testing correctly negative
-      FP <- (n - (n * prevalence)) * (1 - specificity)             # people who do not have disease but test positive
-      FN <- n * prevalence * (1 - sensitivity)                     # people who have disease but test negative
-      PPV <- TP / (TP + FP)
-    }
-    
     prevalence <- seq(0, 1, by = 0.01)
-    prevalence.point <- input$prev
+    prevalence.point <- dataInputFitSensSpec()$prev
     
-    sensitivity <- round(calc.metrics()[1], digits = 2)
-    specificity <- round(calc.metrics()[2], digits = 2)
+    sensitivity <- round(calc.metrics.changedPop()[1], digits = 2)
+    specificity <- round(calc.metrics.changedPop()[2], digits = 2)
     
-    PPV <- calc.PPV.local(sensitivity, specificity)
+    PPV <- calc.PPV.changedPop()
     PPV.point <- PPV[prevalence.point * length(prevalence) + 1]
     
     updateSliderInput(session, "sens", value = sensitivity)
     updateSliderInput(session, "spec", value = specificity)
     
     plot.function(prevalence, PPV, PPV.point)
-  })
+  }
   
-  renderPPV.constantPop <- reactive({
+  renderPPV.constantPop <- function() {
     library(ggplot2)
     library(cowplot)
     
@@ -225,15 +289,15 @@ shinyServer(function(input, output, session) {
     }
     
     prevalence <- seq(0, 1, by = 0.01)
-    prevalence.point <- input$prev
+    prevalence.point <- dataInputFitSensSpec()$prev
     
-    PPV <- calc.PPV()
+    PPV <- calc.PPV.constantPop()
     PPV.point <- PPV[prevalence.point * length(prevalence) + 1]
     
     plot.function(prevalence, PPV, PPV.point)
-  })
+  }
   
-  renderNPV.changedPop <- reactive({
+  renderNPV.changedPop <- function() {
     library(ggplot2)
     library(cowplot)
     
@@ -249,53 +313,28 @@ shinyServer(function(input, output, session) {
       show(npvplot)
     }
     
-    calc.NPV.local <- function(sens, spec) {
-      prevalence <- seq(0, 1, by = 0.01)
-      prevalence.point <- input$prev
-      n <- input$n
-      
-      sensitivity <- sens
-      specificity <- spec
-      
-      TP <- n * prevalence * sensitivity                           # people testing correctly positive
-      TN <- (n - (n * prevalence)) * specificity                   # people testing correctly negative
-      FP <- (n - (n * prevalence)) * (1 - specificity)             # people who do not have disease but test positive
-      FN <- n * prevalence * (1 - sensitivity)                     # people who have disease but test negative
-      NPV <- TN / (TN + FN)
-    }
-    
     prevalence <- seq(0, 1, by = 0.01)
-    prevalence.point <- input$prev
+    prevalence.point <- dataInputFitSensSpec()$prev
     
-    sensitivity.global <- input$sens
-    specificity.global <- input$spec
-    sensitivity.local <- round(calc.metrics()[1], digits = 2)
-    specificity.local <- round(calc.metrics()[2], digits = 2)
+    sensitivity <- round(calc.metrics.changedPop()[1], digits = 2)
+    specificity <- round(calc.metrics.changedPop()[2], digits = 2)
     
-    if(sensitivity.global == sensitivity.local & specificity.global == specificity.local) {
-      NPV <- calc.NPV()
-      NPV.point <- NPV[prevalence.point * length(prevalence) + 1]
-      
-      plot.function(prevalence, NPV, NPV.point)
-    }
-    else {
-      NPV <- calc.NPV.local(sensitivity.local, specificity.local)
-      NPV.point <- NPV[prevalence.point * length(prevalence) + 1]
-      
-      updateSliderInput(session, "sens", value = sensitivity.local)
-      updateSliderInput(session, "spec", value = specificity.local)
-      
-      plot.function(prevalence, NPV, NPV.point)
-    }
-  })
+    NPV <- calc.NPV.changedPop()
+    NPV.point <- NPV[prevalence.point * length(prevalence) + 1]
+    
+    updateSliderInput(session, "sens", value = sensitivity)
+    updateSliderInput(session, "spec", value = specificity)
+    
+    plot.function(prevalence, NPV, NPV.point)
+  }
   
-  renderNPV.constantPop <- reactive({
+  renderNPV.constantPop <- function() {
     library(ggplot2)
     library(cowplot)
     
     prevalence <- seq(0, 1, by = 0.01)
-    prevalence.point <- input$prev
-    NPV <- calc.NPV()
+    prevalence.point <- dataInputChangedSensSpec()$prev
+    NPV <- calc.NPV.constantPop()
     
     plot.function <- function(prev, npv, npv.point) {
       data <- data.frame(x = prevalence, y = NPV)
@@ -309,13 +348,22 @@ shinyServer(function(input, output, session) {
       show(npvplot)
     }
     
-    NPV <- calc.NPV()
+    NPV <- calc.NPV.constantPop()
     NPV.point <- NPV[prevalence.point * length(prevalence) + 1]
     
     plot.function(prevalence, NPV, NPV.point)
-  })
+  }
   
-  output$prevalencePlot <- renderPlot(renderPop.changedPop())
-  output$ppvPlot <- renderPlot(renderPPV.changedPop())
-  output$npvPlot <- renderPlot(renderNPV.changedPop())
+  observeEvent(input$radio, {
+    if(input$radio == 1) {
+      output$prevalencePlot <- renderPlot(renderPop.changedPop())
+      output$ppvPlot <- renderPlot(renderPPV.changedPop())
+      output$npvPlot <- renderPlot(renderNPV.changedPop())
+    }
+    if(input$radio == 2) {
+      output$prevalencePlot <- renderPlot(renderPop.constantPop())
+      output$ppvPlot <- renderPlot(renderPPV.constantPop())
+      output$npvPlot <- renderPlot(renderNPV.constantPop())
+    }
+  })
 })
