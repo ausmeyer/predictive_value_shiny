@@ -11,21 +11,17 @@ shinyUI(
     hr(),
     
     fluidRow(
-      column(3,
+      column(4,
              sliderInput("n", "Population Size",  
                          min = 0, max = 20000, value = 2000, step = 1)
       ),
-      column(3,
+      column(4,
              sliderInput("prev", "Prevalence",  
                          min = 0, max = 1, value = 0.1, step = 0.01)
       ),
-      column(3,
-             sliderInput("sens", "Sensitivity",  
-                         min = 0, max = 1, value = 0.5, step = 0.01)
-      ),
-      column(3,
-             sliderInput("spec", "Specificity",  
-                         min = 0, max = 1, value = 0.5, step = 0.01)
+      column(4,
+             sliderInput("cutoff", "Cutoff",  
+                         min = 0, max = 20, value = 10, step = 0.01)
       )
     ),
     
@@ -53,13 +49,17 @@ shinyUI(
     hr(),
     
     fluidRow(
-      column(3,
-             sliderInput("cutoff", "Cutoff",  
-                         min = 0, max = 20, value = 10, step = 0.01)
+      column(4,
+            sliderInput("sens", "Sensitivity",  
+                        min = 0, max = 1, value = 0.5, step = 0.01)
+      ),
+      column(4,
+            sliderInput("spec", "Specificity",  
+                        min = 0, max = 1, value = 0.5, step = 0.01)
       )
     ),
     
-    p("This simple widget is meant to show the affect that changing prevalence, sensitivity and specificity has on positive predictive value, negative predictive value and the distribution of data. Currently, the means, spreads and cutoffs are only for display. They do not affect the visualization or other parameters. In addition, the test distributions are fit based on the sensitivity and specificity. As a result, I have included the calculated sensitivity and specificity for the actual distributions displayed on the left.")
-    
+    p("This simple widget is meant to show the effect that changing prevalence, population size, mean, spread, and cutoff has on positive predictive value, negative predictive value, sensitivity, specificity and the distribution of data. Currently the sensitivity and specificity sliders are only for display purposes.")
+
   )
 )
