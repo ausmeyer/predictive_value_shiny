@@ -95,6 +95,8 @@ shinyServer(function(input, output, session) {
     without.disease.distribution <- rnorm(without.disease, mean = input$no_disease_mean, sd = input$no_disease_spread)
     
     plot.function(with.disease.distribution, without.disease.distribution, sensitivity, specificity, input$cutoff)
+    
+    
   })
   
   renderPop.constantPop <- reactive({
@@ -265,16 +267,26 @@ shinyServer(function(input, output, session) {
     prevalence <- seq(0, 1, by = 0.01)
     prevalence.point <- input$prev
     
-    sensitivity <- round(calc.metrics()[1], digits = 2)
-    specificity <- round(calc.metrics()[2], digits = 2)
+    sensitivity.global <- input$sens
+    specificity.global <- input$spec
+    sensitivity.local <- round(calc.metrics()[1], digits = 2)
+    specificity.local <- round(calc.metrics()[2], digits = 2)
     
-    NPV <- calc.NPV.local(sensitivity, specificity)
-    NPV.point <- NPV[prevalence.point * length(prevalence) + 1]
-    
-    updateSliderInput(session, "sens", value = sensitivity)
-    updateSliderInput(session, "spec", value = specificity)
-    
-    plot.function(prevalence, NPV, NPV.point)
+    if(sensitivity.global == sensitivity.local & specificity.global == specificity.local) {
+      NPV <- calc.NPV()
+      NPV.point <- NPV[prevalence.point * length(prevalence) + 1]
+      
+      plot.function(prevalence, NPV, NPV.point)
+    }
+    else {
+      NPV <- calc.NPV.local(sensitivity.local, specificity.local)
+      NPV.point <- NPV[prevalence.point * length(prevalence) + 1]
+      
+      updateSliderInput(session, "sens", value = sensitivity.local)
+      updateSliderInput(session, "spec", value = specificity.local)
+      
+      plot.function(prevalence, NPV, NPV.point)
+    }
   })
   
   renderNPV.constantPop <- reactive({
