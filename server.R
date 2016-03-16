@@ -160,7 +160,7 @@ shinyServer(function(input, output, session) {
         geom_vline(xintercept = test_cutoff, linetype = 'solid', lwd = 0.5) +
         theme(plot.margin = unit(c(2,1,1,1), "lines")) + 
         scale_fill_manual(values = c("No Disease" = "blue", "Disease" = "red")) +
-        xlim(-5, 25) +
+        xlim(-7.5, 27.5) +
         labs(x="Clinical Test Result", y="Number of Patients") +
         annotate("text", label = paste("Calculated Sensitivity: ", sens, sep = ""), x = -Inf, y = Inf, hjust = 0, vjust = -1) +
         annotate("text", label = paste("Calculated Specificity: ", spec, sep = ""), x = Inf, y = Inf, hjust = 1, vjust = -1)
@@ -201,7 +201,7 @@ shinyServer(function(input, output, session) {
         geom_vline(xintercept = test_cutoff, linetype = 'solid', lwd = 0.5) +
         theme(plot.margin = unit(c(2,1,1,1), "lines")) + 
         scale_fill_manual(values = c("No Disease" = "blue", "Disease" = "red")) +
-        xlim(-5, 25) +
+        xlim(-7.5, 27.5) +
         labs(x="Clinical Test Result", y="Number of Patients") +
         annotate("text", label = paste("Calculated Sensitivity: ", sens, sep = ""), x = -Inf, y = Inf, hjust = 0, vjust = -1) +
         annotate("text", label = paste("Calculated Specificity: ", spec, sep = ""), x = Inf, y = Inf, hjust = 1, vjust = -1)
@@ -356,14 +356,14 @@ shinyServer(function(input, output, session) {
   
   observeEvent(input$radio, {
     if(input$radio == 1) {
-      output$prevalencePlot <- renderPlot(renderPop.changedPop())
-      output$ppvPlot <- renderPlot(renderPPV.changedPop())
-      output$npvPlot <- renderPlot(renderNPV.changedPop())
-    }
-    if(input$radio == 2) {
       output$prevalencePlot <- renderPlot(renderPop.constantPop())
       output$ppvPlot <- renderPlot(renderPPV.constantPop())
       output$npvPlot <- renderPlot(renderNPV.constantPop())
+    }
+    if(input$radio == 2) {
+      output$prevalencePlot <- renderPlot(renderPop.changedPop())
+      output$ppvPlot <- renderPlot(renderPPV.changedPop())
+      output$npvPlot <- renderPlot(renderNPV.changedPop())
     }
   })
 })

@@ -17,7 +17,7 @@ shinyUI(
              wellPanel(
                radioButtons("radio",
                             label = "Which quantities to calculate?",
-                            choices = list("Calculate Sensitivity and Specificity" = 1, "Calculate Mean, Spread, and Cutoff" = 2), 
+                            choices = list("Manipulate Sensitivity and Specificity" = 1, "Manipulate Mean, Spread, and Cutoff" = 2), 
                             selected = 1)
              )
       ),
@@ -57,7 +57,7 @@ shinyUI(
       ),
       column(3,
              sliderInput("no_disease_spread", "No Disease Spread",  
-                         min = 0.1, max = 4, value = 2, step = 0.01, width = '100%')
+                         min = 0.1, max = 5, value = 2.5, step = 0.01, width = '100%')
       ),
       column(3,
              sliderInput("disease_mean", "Disease Mean",  
@@ -65,7 +65,7 @@ shinyUI(
       ),
       column(3,
              sliderInput("disease_spread", "Disease Spread",  
-                         min = 0.1, max = 4, value = 2, step = 0.01, width = '100%')
+                         min = 0.1, max = 5, value = 2.5, step = 0.01, width = '100%')
       )
     )
   )
