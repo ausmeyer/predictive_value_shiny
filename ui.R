@@ -8,7 +8,7 @@ shinyUI(
     
     fluidRow(column(6, plotOutput('prevalencePlot')), column(3, plotOutput('ppvPlot')), column(3, plotOutput('npvPlot'))),
     
-    p("This simple widget is meant to show the effect that changing clinical test accuracy, precision, sensitivity, and specificity has on the other variables. You have to select whether to calculate the characteristic statistics of the test (sensitivity and specificity) or the direct quantities of the test (non-disease and disease mean and standard deviation, and the cutoff for a positive test). Whichever set you want to calculate, the other quantities can be changed using the sliders."),
+    p("This simple widget is meant to show the effect that changing clinical test accuracy, precision, sensitivity, and specificity has on the other variables. You have to select whether to manipulate the characteristic statistics of the test (sensitivity and specificity) or the direct quantities (non-disease and disease mean and standard deviation, and the cutoff for a positive test). Whichever set you want to manipulate using the sliders, the other quantities will be calculated."),
     
     hr(),
     
