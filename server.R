@@ -160,18 +160,18 @@ shinyServer(function(input, output, session) {
         geom_vline(xintercept = test_cutoff, linetype = 'solid', lwd = 0.5) +
         theme(plot.margin = unit(c(2,1,1,1), "lines")) + 
         scale_fill_manual(values = c("No Disease" = "blue", "Disease" = "red")) +
-        xlim(-7.5, 27.5) +
+        xlim(-5, 45) +
         labs(x="Clinical Test Result", y="Number of Patients") +
-        annotate("text", label = paste("Calculated Sensitivity: ", sens, sep = ""), x = -Inf, y = Inf, hjust = 0, vjust = -1) +
-        annotate("text", label = paste("Calculated Specificity: ", spec, sep = ""), x = Inf, y = Inf, hjust = 1, vjust = -1)
+        annotate("text", label = paste("Sensitivity: ", sens, sep = ""), x = -Inf, y = Inf, hjust = 0, vjust = -1) +
+        annotate("text", label = paste("Specificity: ", spec, sep = ""), x = Inf, y = Inf, hjust = 1, vjust = -1)
       
       gg2 <- ggplot_gtable(ggplot_build(prevalence.plot))
       gg2$layout$clip[gg2$layout$name == "panel"] <- "off"
       grid.draw(gg2)
     }
     
-    sensitivity.local <- round(calc.metrics.changedPop()[1], digits = 2)
-    specificity.local <- round(calc.metrics.changedPop()[2], digits = 2)
+    sensitivity.local <- round(calc.metrics.changedPop()[1], digits = 3)
+    specificity.local <- round(calc.metrics.changedPop()[2], digits = 3)
     
     with.disease.distribution <- rnorm(with.disease, mean = dataInputFitSensSpec()$disease_mean, sd = dataInputFitSensSpec()$disease_spread)
     without.disease.distribution <- rnorm(without.disease, mean = dataInputFitSensSpec()$no_disease_mean, sd = dataInputFitSensSpec()$no_disease_spread)
@@ -201,10 +201,10 @@ shinyServer(function(input, output, session) {
         geom_vline(xintercept = test_cutoff, linetype = 'solid', lwd = 0.5) +
         theme(plot.margin = unit(c(2,1,1,1), "lines")) + 
         scale_fill_manual(values = c("No Disease" = "blue", "Disease" = "red")) +
-        xlim(-7.5, 27.5) +
+        xlim(-5, 45) +
         labs(x="Clinical Test Result", y="Number of Patients") +
-        annotate("text", label = paste("Calculated Sensitivity: ", sens, sep = ""), x = -Inf, y = Inf, hjust = 0, vjust = -1) +
-        annotate("text", label = paste("Calculated Specificity: ", spec, sep = ""), x = Inf, y = Inf, hjust = 1, vjust = -1)
+        annotate("text", label = paste("Sensitivity: ", sens, sep = ""), x = -Inf, y = Inf, hjust = 0, vjust = -1) +
+        annotate("text", label = paste("Specificity: ", spec, sep = ""), x = Inf, y = Inf, hjust = 1, vjust = -1)
       
       gg2 <- ggplot_gtable(ggplot_build(prevalence.plot))
       gg2$layout$clip[gg2$layout$name == "panel"] <- "off"
@@ -221,16 +221,16 @@ shinyServer(function(input, output, session) {
       return((sensitivity - TP / with.disease)^2 + (specificity - TN / without.disease)^2)
     }
     
-    optim.distribution <- optim(par = c(10, 2, 10, 2, 10), fn)
+    optim.distribution <- optim(par = c(20, 1, 20, 1, 20), fn)
     
     with.disease.distribution <- rnorm(with.disease, mean = optim.distribution$par[1], sd = optim.distribution$par[2])
     without.disease.distribution <- rnorm(without.disease, mean = optim.distribution$par[3], sd = optim.distribution$par[4])
     
     TP <- sum(with.disease.distribution >= optim.distribution$par[5])
-    calculated.sensitivity <- round(TP / with.disease, digits = 2)
-
-        TN <- sum(without.disease.distribution < optim.distribution$par[5])
-    calculated.specificity <- round(TN / without.disease, digits = 2)
+    calculated.sensitivity <- round(TP / with.disease, digits = 3)
+    
+    TN <- sum(without.disease.distribution < optim.distribution$par[5])
+    calculated.specificity <- round(TN / without.disease, digits = 3)
     
     updateSliderInput(session, "disease_mean", value = mean(with.disease.distribution))
     updateSliderInput(session, "disease_spread", value = sd(with.disease.distribution))
@@ -244,24 +244,29 @@ shinyServer(function(input, output, session) {
   renderPPV.changedPop <- function() {
     library(ggplot2)
     library(cowplot)
+    library(grid)
     
     plot.function <- function(prev, ppv, ppv.point) {
       data <- data.frame(x = prevalence, y = PPV)
-      npvplot <- ggplot(data, aes(x = x, y = y)) + 
+      ppv.plot <- ggplot(data, aes(x = x, y = y)) + 
         geom_line() +
         geom_segment(x = prevalence.point, xend = prevalence.point, y = 0, yend = ppv.point, color = 'red', linetype = 'dotted') +
         geom_segment(x = 0, xend = prevalence.point, y = ppv.point, yend = ppv.point, color = 'red', linetype = 'dotted') +
+        theme(plot.margin = unit(c(2,1,1,1), "lines")) + 
+        annotate("text", label = paste("Positive Predictive Value: ", round(ppv.point, digits = 3), sep = ""), x = 0.5, y = Inf, vjust = -1) +
         ylim(0, 1) + 
-        labs(x="Prevalence", y="Positive Predictive Value")
+        labs(x="Pretest Probability", y="Positive Predictive Value")
       
-      show(npvplot)
+      gg2 <- ggplot_gtable(ggplot_build(ppv.plot))
+      gg2$layout$clip[gg2$layout$name == "panel"] <- "off"
+      grid.draw(gg2)
     }
     
     prevalence <- seq(0, 1, by = 0.01)
     prevalence.point <- dataInputFitSensSpec()$prev
     
-    sensitivity <- round(calc.metrics.changedPop()[1], digits = 2)
-    specificity <- round(calc.metrics.changedPop()[2], digits = 2)
+    sensitivity <- round(calc.metrics.changedPop()[1], digits = 3)
+    specificity <- round(calc.metrics.changedPop()[2], digits = 3)
     
     PPV <- calc.PPV.changedPop()
     PPV.point <- PPV[prevalence.point * length(prevalence) + 1]
@@ -275,17 +280,22 @@ shinyServer(function(input, output, session) {
   renderPPV.constantPop <- function() {
     library(ggplot2)
     library(cowplot)
+    library(grid)
     
     plot.function <- function(prev, ppv, ppv.point) {
       data <- data.frame(x = prevalence, y = PPV)
-      npvplot <- ggplot(data, aes(x = x, y = y)) + 
+      ppv.plot <- ggplot(data, aes(x = x, y = y)) + 
         geom_line() +
         geom_segment(x = prevalence.point, xend = prevalence.point, y = 0, yend = ppv.point, color = 'red', linetype = 'dotted') +
         geom_segment(x = 0, xend = prevalence.point, y = ppv.point, yend = ppv.point, color = 'red', linetype = 'dotted') +
+        theme(plot.margin = unit(c(2,1,1,1), "lines")) + 
+        annotate("text", label = paste("Positive Predictive Value: ", round(ppv.point, digits = 3), sep = ""), x = 0.5, y = Inf, vjust = -1) +
         ylim(0, 1) + 
-        labs(x="Prevalence", y="Positive Predictive Value")
+        labs(x="Pretest Probability", y="Positive Predictive Value")
       
-      show(npvplot)
+      gg2 <- ggplot_gtable(ggplot_build(ppv.plot))
+      gg2$layout$clip[gg2$layout$name == "panel"] <- "off"
+      grid.draw(gg2)
     }
     
     prevalence <- seq(0, 1, by = 0.01)
@@ -300,24 +310,29 @@ shinyServer(function(input, output, session) {
   renderNPV.changedPop <- function() {
     library(ggplot2)
     library(cowplot)
+    library(grid)
     
     plot.function <- function(prev, npv, npv.point) {
       data <- data.frame(x = prevalence, y = NPV)
-      npvplot <- ggplot(data, aes(x = x, y = y)) + 
+      npv.plot <- ggplot(data, aes(x = x, y = y)) + 
         geom_line() +
         geom_segment(x = prevalence.point, xend = prevalence.point, y = 0, yend = npv.point, color = 'red', linetype = 'dotted') +
         geom_segment(x = 0, xend = prevalence.point, y = npv.point, yend = npv.point, color = 'red', linetype = 'dotted') +
+        theme(plot.margin = unit(c(2,1,1,1), "lines")) + 
+        annotate("text", label = paste("Negative Predictive Value: ", round(npv.point, digits = 3), sep = ""), x = 0.5, y = Inf, vjust = -1) +
         ylim(0, 1) + 
-        labs(x="Prevalence", y="Negative Predictive Value")
+        labs(x="Pretest Probability", y="Negative Predictive Value")
       
-      show(npvplot)
+      gg2 <- ggplot_gtable(ggplot_build(npv.plot))
+      gg2$layout$clip[gg2$layout$name == "panel"] <- "off"
+      grid.draw(gg2)
     }
     
     prevalence <- seq(0, 1, by = 0.01)
     prevalence.point <- dataInputFitSensSpec()$prev
     
-    sensitivity <- round(calc.metrics.changedPop()[1], digits = 2)
-    specificity <- round(calc.metrics.changedPop()[2], digits = 2)
+    sensitivity <- round(calc.metrics.changedPop()[1], digits = 3)
+    specificity <- round(calc.metrics.changedPop()[2], digits = 3)
     
     NPV <- calc.NPV.changedPop()
     NPV.point <- NPV[prevalence.point * length(prevalence) + 1]
@@ -331,6 +346,7 @@ shinyServer(function(input, output, session) {
   renderNPV.constantPop <- function() {
     library(ggplot2)
     library(cowplot)
+    library(grid)
     
     prevalence <- seq(0, 1, by = 0.01)
     prevalence.point <- dataInputChangedSensSpec()$prev
@@ -338,14 +354,18 @@ shinyServer(function(input, output, session) {
     
     plot.function <- function(prev, npv, npv.point) {
       data <- data.frame(x = prevalence, y = NPV)
-      npvplot <- ggplot(data, aes(x = x, y = y)) + 
+      npv.plot <- ggplot(data, aes(x = x, y = y)) + 
         geom_line() +
         geom_segment(x = prevalence.point, xend = prevalence.point, y = 0, yend = npv.point, color = 'red', linetype = 'dotted') +
         geom_segment(x = 0, xend = prevalence.point, y = npv.point, yend = npv.point, color = 'red', linetype = 'dotted') +
+        theme(plot.margin = unit(c(2,1,1,1), "lines")) + 
+        annotate("text", label = paste("Negative Predictive Value: ", round(npv.point, digits = 3), sep = ""), x = 0.5, y = Inf, vjust = -1) +
         ylim(0, 1) + 
-        labs(x="Prevalence", y="Negative Predictive Value")
+        labs(x="Pretest Probability", y="Negative Predictive Value")
       
-      show(npvplot)
+      gg2 <- ggplot_gtable(ggplot_build(npv.plot))
+      gg2$layout$clip[gg2$layout$name == "panel"] <- "off"
+      grid.draw(gg2)
     }
     
     NPV <- calc.NPV.constantPop()
