@@ -143,7 +143,6 @@ shinyServer(function(input, output, session) {
   
   renderPop.changedPop <- function() {
     library(ggplot2)
-    library(cowplot)
     library(grid)
     
     prevalence.point <- dataInputFitSensSpec()$prev
@@ -159,6 +158,7 @@ shinyServer(function(input, output, session) {
         geom_histogram(alpha = 0.2, position="identity", bins = 50) + 
         geom_vline(xintercept = test_cutoff, linetype = 'solid', lwd = 0.5) +
         theme(plot.margin = unit(c(2,1,1,1), "lines")) + 
+        theme_bw() + 
         scale_fill_manual(values = c("No Disease" = "blue", "Disease" = "red")) +
         xlim(-5, 45) +
         labs(x="Clinical Test Result", y="Number of Patients") +
@@ -181,7 +181,6 @@ shinyServer(function(input, output, session) {
   
   renderPop.constantPop <- function () {
     library(ggplot2)
-    library(cowplot)
     library(grid)
     
     prevalence.point <- dataInputChangedSensSpec()$prev
@@ -200,6 +199,7 @@ shinyServer(function(input, output, session) {
         geom_histogram(alpha = 0.2, position="identity", bins = 50) + 
         geom_vline(xintercept = test_cutoff, linetype = 'solid', lwd = 0.5) +
         theme(plot.margin = unit(c(2,1,1,1), "lines")) + 
+        theme_bw() + 
         scale_fill_manual(values = c("No Disease" = "blue", "Disease" = "red")) +
         xlim(-5, 45) +
         labs(x="Clinical Test Result", y="Number of Patients") +
@@ -243,7 +243,6 @@ shinyServer(function(input, output, session) {
   
   renderPPV.changedPop <- function() {
     library(ggplot2)
-    library(cowplot)
     library(grid)
     
     plot.function <- function(prev, ppv, ppv.point) {
@@ -253,6 +252,7 @@ shinyServer(function(input, output, session) {
         geom_segment(x = prevalence.point, xend = prevalence.point, y = 0, yend = ppv.point, color = 'red', linetype = 'dotted') +
         geom_segment(x = 0, xend = prevalence.point, y = ppv.point, yend = ppv.point, color = 'red', linetype = 'dotted') +
         theme(plot.margin = unit(c(2,1,1,1), "lines")) + 
+        theme_bw() + 
         annotate("text", label = paste("Positive Predictive Value: ", round(ppv.point, digits = 3), sep = ""), x = 0.5, y = Inf, vjust = -1) +
         ylim(0, 1) + 
         labs(x="Pretest Probability", y="Positive Predictive Value")
@@ -279,7 +279,6 @@ shinyServer(function(input, output, session) {
   
   renderPPV.constantPop <- function() {
     library(ggplot2)
-    library(cowplot)
     library(grid)
     
     plot.function <- function(prev, ppv, ppv.point) {
@@ -289,6 +288,7 @@ shinyServer(function(input, output, session) {
         geom_segment(x = prevalence.point, xend = prevalence.point, y = 0, yend = ppv.point, color = 'red', linetype = 'dotted') +
         geom_segment(x = 0, xend = prevalence.point, y = ppv.point, yend = ppv.point, color = 'red', linetype = 'dotted') +
         theme(plot.margin = unit(c(2,1,1,1), "lines")) + 
+        theme_bw() + 
         annotate("text", label = paste("Positive Predictive Value: ", round(ppv.point, digits = 3), sep = ""), x = 0.5, y = Inf, vjust = -1) +
         ylim(0, 1) + 
         labs(x="Pretest Probability", y="Positive Predictive Value")
@@ -309,7 +309,6 @@ shinyServer(function(input, output, session) {
   
   renderNPV.changedPop <- function() {
     library(ggplot2)
-    library(cowplot)
     library(grid)
     
     plot.function <- function(prev, npv, npv.point) {
@@ -319,6 +318,7 @@ shinyServer(function(input, output, session) {
         geom_segment(x = prevalence.point, xend = prevalence.point, y = 0, yend = npv.point, color = 'red', linetype = 'dotted') +
         geom_segment(x = 0, xend = prevalence.point, y = npv.point, yend = npv.point, color = 'red', linetype = 'dotted') +
         theme(plot.margin = unit(c(2,1,1,1), "lines")) + 
+        theme_bw() + 
         annotate("text", label = paste("Negative Predictive Value: ", round(npv.point, digits = 3), sep = ""), x = 0.5, y = Inf, vjust = -1) +
         ylim(0, 1) + 
         labs(x="Pretest Probability", y="Negative Predictive Value")
@@ -345,7 +345,6 @@ shinyServer(function(input, output, session) {
   
   renderNPV.constantPop <- function() {
     library(ggplot2)
-    library(cowplot)
     library(grid)
     
     prevalence <- seq(0, 1, by = 0.01)
@@ -359,6 +358,7 @@ shinyServer(function(input, output, session) {
         geom_segment(x = prevalence.point, xend = prevalence.point, y = 0, yend = npv.point, color = 'red', linetype = 'dotted') +
         geom_segment(x = 0, xend = prevalence.point, y = npv.point, yend = npv.point, color = 'red', linetype = 'dotted') +
         theme(plot.margin = unit(c(2,1,1,1), "lines")) + 
+        theme_bw() + 
         annotate("text", label = paste("Negative Predictive Value: ", round(npv.point, digits = 3), sep = ""), x = 0.5, y = Inf, vjust = -1) +
         ylim(0, 1) + 
         labs(x="Pretest Probability", y="Negative Predictive Value")
