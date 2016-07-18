@@ -157,8 +157,8 @@ shinyServer(function(input, output, session) {
                                 aes(x=data, fill=Groups)) + 
         geom_histogram(alpha = 0.2, position="identity", bins = 50) + 
         geom_vline(xintercept = test_cutoff, linetype = 'solid', lwd = 0.5) +
+        theme_bw() +
         theme(plot.margin = unit(c(2,1,1,1), "lines")) + 
-        theme_bw() + 
         scale_fill_manual(values = c("No Disease" = "blue", "Disease" = "red")) +
         xlim(-5, 45) +
         labs(x="Clinical Test Result", y="Number of Patients") +
@@ -198,8 +198,8 @@ shinyServer(function(input, output, session) {
                                 aes(x=data, fill=Groups)) + 
         geom_histogram(alpha = 0.2, position="identity", bins = 50) + 
         geom_vline(xintercept = test_cutoff, linetype = 'solid', lwd = 0.5) +
+        theme_bw() +
         theme(plot.margin = unit(c(2,1,1,1), "lines")) + 
-        theme_bw() + 
         scale_fill_manual(values = c("No Disease" = "blue", "Disease" = "red")) +
         xlim(-5, 45) +
         labs(x="Clinical Test Result", y="Number of Patients") +
@@ -251,8 +251,8 @@ shinyServer(function(input, output, session) {
         geom_line() +
         geom_segment(x = prevalence.point, xend = prevalence.point, y = 0, yend = ppv.point, color = 'red', linetype = 'dotted') +
         geom_segment(x = 0, xend = prevalence.point, y = ppv.point, yend = ppv.point, color = 'red', linetype = 'dotted') +
+        theme_bw() +
         theme(plot.margin = unit(c(2,1,1,1), "lines")) + 
-        theme_bw() + 
         annotate("text", label = paste("Positive Predictive Value: ", round(ppv.point, digits = 3), sep = ""), x = 0.5, y = Inf, vjust = -1) +
         ylim(0, 1) + 
         labs(x="Pretest Probability", y="Positive Predictive Value")
@@ -287,8 +287,8 @@ shinyServer(function(input, output, session) {
         geom_line() +
         geom_segment(x = prevalence.point, xend = prevalence.point, y = 0, yend = ppv.point, color = 'red', linetype = 'dotted') +
         geom_segment(x = 0, xend = prevalence.point, y = ppv.point, yend = ppv.point, color = 'red', linetype = 'dotted') +
-        theme(plot.margin = unit(c(2,1,1,1), "lines")) + 
         theme_bw() + 
+        theme(plot.margin = unit(c(2,1,1,1), "lines")) + 
         annotate("text", label = paste("Positive Predictive Value: ", round(ppv.point, digits = 3), sep = ""), x = 0.5, y = Inf, vjust = -1) +
         ylim(0, 1) + 
         labs(x="Pretest Probability", y="Positive Predictive Value")
@@ -317,8 +317,8 @@ shinyServer(function(input, output, session) {
         geom_line() +
         geom_segment(x = prevalence.point, xend = prevalence.point, y = 0, yend = npv.point, color = 'red', linetype = 'dotted') +
         geom_segment(x = 0, xend = prevalence.point, y = npv.point, yend = npv.point, color = 'red', linetype = 'dotted') +
-        theme(plot.margin = unit(c(2,1,1,1), "lines")) + 
         theme_bw() + 
+        theme(plot.margin = unit(c(2,1,1,1), "lines")) + 
         annotate("text", label = paste("Negative Predictive Value: ", round(npv.point, digits = 3), sep = ""), x = 0.5, y = Inf, vjust = -1) +
         ylim(0, 1) + 
         labs(x="Pretest Probability", y="Negative Predictive Value")
@@ -357,8 +357,8 @@ shinyServer(function(input, output, session) {
         geom_line() +
         geom_segment(x = prevalence.point, xend = prevalence.point, y = 0, yend = npv.point, color = 'red', linetype = 'dotted') +
         geom_segment(x = 0, xend = prevalence.point, y = npv.point, yend = npv.point, color = 'red', linetype = 'dotted') +
-        theme(plot.margin = unit(c(2,1,1,1), "lines")) + 
         theme_bw() + 
+        theme(plot.margin = unit(c(2,1,1,1), "lines")) + 
         annotate("text", label = paste("Negative Predictive Value: ", round(npv.point, digits = 3), sep = ""), x = 0.5, y = Inf, vjust = -1) +
         ylim(0, 1) + 
         labs(x="Pretest Probability", y="Negative Predictive Value")
