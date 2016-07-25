@@ -258,7 +258,6 @@ shinyServer(function(input, output, session) {
         labs(x="Pretest Probability", y="Positive Predictive Value")
       
       p <- plotly_build(ppv.plot)
-      print(p$data[[2]]$text)
       p$data[[1]]$text <- gsub("y:", "Positive Predictive Value:", p$data[[1]]$text)
       p$data[[1]]$text <- gsub("x:", "Pretest Probability:", p$data[[1]]$text)
       p$data[[2]]$text <- gsub("y:.*", "", p$data[[2]]$text)
@@ -300,7 +299,6 @@ shinyServer(function(input, output, session) {
         labs(x="Pretest Probability", y="Positive Predictive Value")
 
       p <- plotly_build(ppv.plot)
-      print(p$data[[2]]$text)
       p$data[[1]]$text <- gsub("y:", "Positive Predictive Value:", p$data[[1]]$text)
       p$data[[1]]$text <- gsub("x:", "Pretest Probability:", p$data[[1]]$text)
       p$data[[2]]$text <- gsub("y:.*", "", p$data[[2]]$text)
@@ -336,7 +334,6 @@ shinyServer(function(input, output, session) {
         labs(x="Pretest Probability", y="Negative Predictive Value")
 
       p <- plotly_build(npv.plot)
-      print(p$data[[2]]$text)
       p$data[[1]]$text <- gsub("y:", "Negative Predictive Value:", p$data[[1]]$text)
       p$data[[1]]$text <- gsub("x:", "Pretest Probability:", p$data[[1]]$text)
       p$data[[2]]$text <- gsub("y:.*", "", p$data[[2]]$text)
@@ -382,7 +379,6 @@ shinyServer(function(input, output, session) {
         labs(x="Pretest Probability", y="Negative Predictive Value")
       
       p <- plotly_build(npv.plot)
-      print(p$data[[2]]$text)
       p$data[[1]]$text <- gsub("y:", "Negative Predictive Value:", p$data[[1]]$text)
       p$data[[1]]$text <- gsub("x:", "Pretest Probability:", p$data[[1]]$text)
       p$data[[2]]$text <- gsub("y:.*", "", p$data[[2]]$text)
