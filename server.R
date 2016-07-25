@@ -156,7 +156,7 @@ shinyServer(function(input, output, session) {
                                                       rep('No Disease', length(no.disease.distribution)))), 
                                 aes(x=data, fill=Groups)) + 
         geom_histogram(alpha = 0.2, position="identity", bins = 50) + 
-        geom_vline(xintercept = test_cutoff, linetype = 'solid', size = 0.4) +
+        geom_vline(xintercept = test_cutoff, linetype = 'solid', lwd = 0.4) +
         theme_bw() +
         theme(plot.margin = unit(c(0,1,0.5,1), "lines")) + 
         scale_fill_manual(values = c("No Disease" = "blue", "Disease" = "red")) +
@@ -164,8 +164,8 @@ shinyServer(function(input, output, session) {
         labs(x="Clinical Test Result", y="Number of Patients")
 
       p <- plotly_build(prevalence.plot)
-      p[["data"]][[1]][["text"]] <- gsub("data", "Bin Result", p[["data"]][[1]][["text"]])
-      p[["data"]][[2]][["text"]] <- gsub("data", "Bin Result", p[["data"]][[2]][["text"]])
+      p$data[[1]]$text <- gsub("data", "Bin Result", p$data[[1]]$text)
+      p$data[[2]]$text <- gsub("data", "Bin Result", p$data[[2]]$text)
       p <- plot_ly(p)
     }
     
@@ -196,7 +196,7 @@ shinyServer(function(input, output, session) {
                                                       rep('No Disease', length(no.disease.distribution)))), 
                                 aes(x=data, fill=Groups)) + 
         geom_histogram(alpha = 0.2, position="identity", bins = 50) + 
-        geom_vline(xintercept = test_cutoff, linetype = 'solid', size = 0.4) +
+        geom_vline(xintercept = test_cutoff, linetype = 'solid', lwd = 0.4) +
         theme_bw() +
         theme(plot.margin = unit(c(0,1,0.5,1), "lines")) + 
         scale_fill_manual(values = c("No Disease" = "blue", "Disease" = "red")) +
@@ -204,8 +204,8 @@ shinyServer(function(input, output, session) {
         labs(x="Clinical Test Result", y="Number of Patients")
 
       p <- plotly_build(prevalence.plot)
-      p[["data"]][[1]][["text"]] <- gsub("data", "Bin Result", p[["data"]][[1]][["text"]])
-      p[["data"]][[2]][["text"]] <- gsub("data", "Bin Result", p[["data"]][[2]][["text"]])
+      p$data[[1]]$text <- gsub("data", "Bin Result", p$data[[1]]$text)
+      p$data[[2]]$text <- gsub("data", "Bin Result", p$data[[2]]$text)
       p <- plot_ly(p)
     }
     
@@ -246,7 +246,7 @@ shinyServer(function(input, output, session) {
     plot.function <- function(prev, ppv, ppv.point) {
       data <- data.frame(x = prevalence, y = PPV)
       ppv.plot <- ggplot(data, aes(x = x, y = y)) + 
-        geom_line(size = 0.4) +
+        geom_line(lwd = 0.4) +
         geom_segment(x = prevalence.point, xend = prevalence.point, y = 0, yend = ppv.point, color = 'red', linetype = 'dotted', size = 0.4) +
         geom_segment(x = 0, xend = prevalence.point, y = ppv.point, yend = ppv.point, color = 'red', linetype = 'dotted', size = 0.4) +
         theme_bw() +
@@ -255,12 +255,12 @@ shinyServer(function(input, output, session) {
         labs(x="Pretest Probability", y="Positive Predictive Value")
       
       p <- plotly_build(ppv.plot)
-      p[["data"]][[1]][["text"]] <- gsub("y:", "Positive Predictive Value:", p[["data"]][[1]][["text"]])
-      p[["data"]][[1]][["text"]] <- gsub("x:", "Pretest Probability:", p[["data"]][[1]][["text"]])
-      p[["data"]][[2]][["text"]] <- gsub("y:.*", "", p[["data"]][[2]][["text"]])
-      p[["data"]][[2]][["text"]] <- gsub("x:", "User Set Pretest Probability:", p[["data"]][[2]][["text"]])
-      p[["data"]][[3]][["text"]] <- gsub(".*y:", "y:", p[["data"]][[3]][["text"]])
-      p[["data"]][[3]][["text"]] <- gsub("y:", "Positive Predictive Value:", p[["data"]][[3]][["text"]])
+      p$data[[1]]$text <- gsub("y:", "Positive Predictive Value:", p$data[[1]]$text)
+      p$data[[1]]$text <- gsub("x:", "Pretest Probability:", p$data[[1]]$text)
+      p$data[[2]]$text <- gsub("y:.*", "", p$data[[2]]$text)
+      p$data[[2]]$text <- gsub("x:", "User Set Pretest Probability:", p$data[[2]]$text)
+      p$data[[3]]$text <- gsub(".*y:", "y:", p$data[[3]]$text)
+      p$data[[3]]$text <- gsub("y:", "Positive Predictive Value:", p$data[[3]]$text)
       p <- plot_ly(p)
     }
     
@@ -286,7 +286,7 @@ shinyServer(function(input, output, session) {
     plot.function <- function(prev, ppv, ppv.point) {
       data <- data.frame(x = prevalence, y = PPV)
       ppv.plot <- ggplot(data, aes(x = x, y = y)) + 
-        geom_line(size = 0.4) +
+        geom_line(lwd = 0.4) +
         geom_segment(x = prevalence.point, xend = prevalence.point, y = 0, yend = ppv.point, color = 'red', linetype = 'dotted', size = 0.4) +
         geom_segment(x = 0, xend = prevalence.point, y = ppv.point, yend = ppv.point, color = 'red', linetype = 'dotted', size = 0.4) +
         theme_bw() + 
@@ -295,12 +295,12 @@ shinyServer(function(input, output, session) {
         labs(x="Pretest Probability", y="Positive Predictive Value")
 
       p <- plotly_build(ppv.plot)
-      p[["data"]][[1]][["text"]] <- gsub("y:", "Positive Predictive Value:", p[["data"]][[1]][["text"]])
-      p[["data"]][[1]][["text"]] <- gsub("x:", "Pretest Probability:", p[["data"]][[1]][["text"]])
-      p[["data"]][[2]][["text"]] <- gsub("y:.*", "", p[["data"]][[2]][["text"]])
-      p[["data"]][[2]][["text"]] <- gsub("x:", "User Set Pretest Probability:", p[["data"]][[2]][["text"]])
-      p[["data"]][[3]][["text"]] <- gsub(".*y:", "y:", p[["data"]][[3]][["text"]])
-      p[["data"]][[3]][["text"]] <- gsub("y:", "Positive Predictive Value:", p[["data"]][[3]][["text"]])
+      p$data[[1]]$text <- gsub("y:", "Positive Predictive Value:", p$data[[1]]$text)
+      p$data[[1]]$text <- gsub("x:", "Pretest Probability:", p$data[[1]]$text)
+      p$data[[2]]$text <- gsub("y:.*", "", p$data[[2]]$text)
+      p$data[[2]]$text <- gsub("x:", "User Set Pretest Probability:", p$data[[2]]$text)
+      p$data[[3]]$text <- gsub(".*y:", "y:", p$data[[3]]$text)
+      p$data[[3]]$text <- gsub("y:", "Positive Predictive Value:", p$data[[3]]$text)
       p <- plot_ly(p)
     }
     
@@ -320,7 +320,7 @@ shinyServer(function(input, output, session) {
     plot.function <- function(prev, npv, npv.point) {
       data <- data.frame(x = prevalence, y = NPV)
       npv.plot <- ggplot(data, aes(x = x, y = y)) + 
-        geom_line(size = 0.4) +
+        geom_line(lwd = 0.4) +
         geom_segment(x = prevalence.point, xend = prevalence.point, y = 0, yend = npv.point, color = 'red', linetype = 'dotted', size = 0.4) +
         geom_segment(x = 0, xend = prevalence.point, y = npv.point, yend = npv.point, color = 'red', linetype = 'dotted', size = 0.4) +
         theme_bw() + 
@@ -329,12 +329,12 @@ shinyServer(function(input, output, session) {
         labs(x="Pretest Probability", y="Negative Predictive Value")
 
       p <- plotly_build(npv.plot)
-      p[["data"]][[1]][["text"]] <- gsub("y:", "Negative Predictive Value:", p[["data"]][[1]][["text"]])
-      p[["data"]][[1]][["text"]] <- gsub("x:", "Pretest Probability:", p[["data"]][[1]][["text"]])
-      p[["data"]][[2]][["text"]] <- gsub("y:.*", "", p[["data"]][[2]][["text"]])
-      p[["data"]][[2]][["text"]] <- gsub("x:", "User Set Pretest Probability:", p[["data"]][[2]][["text"]])
-      p[["data"]][[3]][["text"]] <- gsub(".*y:", "y:", p[["data"]][[3]][["text"]])
-      p[["data"]][[3]][["text"]] <- gsub("y:", "Negative Predictive Value:", p[["data"]][[3]][["text"]])
+      p$data[[1]]$text <- gsub("y:", "Negative Predictive Value:", p$data[[1]]$text)
+      p$data[[1]]$text <- gsub("x:", "Pretest Probability:", p$data[[1]]$text)
+      p$data[[2]]$text <- gsub("y:.*", "", p$data[[2]]$text)
+      p$data[[2]]$text <- gsub("x:", "User Set Pretest Probability:", p$data[[2]]$text)
+      p$data[[3]]$text <- gsub(".*y:", "y:", p$data[[3]]$text)
+      p$data[[3]]$text <- gsub("y:", "Negative Predictive Value:", p$data[[3]]$text)
       p <- plot_ly(p)
     }
     
@@ -364,7 +364,7 @@ shinyServer(function(input, output, session) {
     plot.function <- function(prev, npv, npv.point) {
       data <- data.frame(x = prevalence, y = NPV)
       npv.plot <- ggplot(data, aes(x = x, y = y)) + 
-        geom_line(size = 0.4) +
+        geom_line(lwd = 0.4) +
         geom_segment(x = prevalence.point, xend = prevalence.point, y = 0, yend = npv.point, color = 'red', linetype = 'dotted', size = 0.4) +
         geom_segment(x = 0, xend = prevalence.point, y = npv.point, yend = npv.point, color = 'red', linetype = 'dotted', size = 0.4) +
         theme_bw() + 
@@ -373,12 +373,12 @@ shinyServer(function(input, output, session) {
         labs(x="Pretest Probability", y="Negative Predictive Value")
       
       p <- plotly_build(npv.plot)
-      p[["data"]][[1]][["text"]] <- gsub("y:", "Negative Predictive Value:", p[["data"]][[1]][["text"]])
-      p[["data"]][[1]][["text"]] <- gsub("x:", "Pretest Probability:", p[["data"]][[1]][["text"]])
-      p[["data"]][[2]][["text"]] <- gsub("y:.*", "", p[["data"]][[2]][["text"]])
-      p[["data"]][[2]][["text"]] <- gsub("x:", "User Set Pretest Probability:", p[["data"]][[2]][["text"]])
-      p[["data"]][[3]][["text"]] <- gsub(".*y:", "y:", p[["data"]][[3]][["text"]])
-      p[["data"]][[3]][["text"]] <- gsub("y:", "Negative Predictive Value:", p[["data"]][[3]][["text"]])
+      p$data[[1]]$text <- gsub("y:", "Negative Predictive Value:", p$data[[1]]$text)
+      p$data[[1]]$text <- gsub("x:", "Pretest Probability:", p$data[[1]]$text)
+      p$data[[2]]$text <- gsub("y:.*", "", p$data[[2]]$text)
+      p$data[[2]]$text <- gsub("x:", "User Set Pretest Probability:", p$data[[2]]$text)
+      p$data[[3]]$text <- gsub(".*y:", "y:", p$data[[3]]$text)
+      p$data[[3]]$text <- gsub("y:", "Negative Predictive Value:", p$data[[3]]$text)
       p <- plot_ly(p)
     }
     
