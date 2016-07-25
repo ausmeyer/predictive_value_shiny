@@ -156,7 +156,7 @@ shinyServer(function(input, output, session) {
                                                       rep('No Disease', length(no.disease.distribution)))), 
                                 aes(x=data, fill=Groups)) + 
         geom_histogram(alpha = 0.2, position="identity", bins = 50) + 
-        geom_vline(xintercept = test_cutoff, linetype = 'solid', lwd = 0.5) +
+        geom_vline(xintercept = test_cutoff, linetype = 'solid', lwd = 0.4) +
         theme_bw() +
         theme(plot.margin = unit(c(0,1,0.5,1), "lines")) + 
         scale_fill_manual(values = c("No Disease" = "blue", "Disease" = "red")) +
@@ -196,7 +196,7 @@ shinyServer(function(input, output, session) {
                                                       rep('No Disease', length(no.disease.distribution)))), 
                                 aes(x=data, fill=Groups)) + 
         geom_histogram(alpha = 0.2, position="identity", bins = 50) + 
-        geom_vline(xintercept = test_cutoff, linetype = 'solid', lwd = 0.5) +
+        geom_vline(xintercept = test_cutoff, linetype = 'solid', lwd = 0.4) +
         theme_bw() +
         theme(plot.margin = unit(c(0,1,0.5,1), "lines")) + 
         scale_fill_manual(values = c("No Disease" = "blue", "Disease" = "red")) +
