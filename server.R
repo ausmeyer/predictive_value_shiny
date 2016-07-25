@@ -164,8 +164,8 @@ shinyServer(function(input, output, session) {
         labs(x="Clinical Test Result", y="Number of Patients")
 
       p <- plotly_build(prevalence.plot)
-      p$data[[1]]$text <- gsub("data", "Bin Result", p$data[[1]]$text)
-      p$data[[2]]$text <- gsub("data", "Bin Result", p$data[[2]]$text)
+      p[["data"]][[1]][["text"]] <- gsub("data", "Bin Result", p[["data"]][[1]][["text"]])
+      p[["data"]][[2]][["text"]] <- gsub("data", "Bin Result", p[["data"]][[2]][["text"]])
       p <- plot_ly(p)
     }
     
@@ -204,8 +204,8 @@ shinyServer(function(input, output, session) {
         labs(x="Clinical Test Result", y="Number of Patients")
 
       p <- plotly_build(prevalence.plot)
-      p$data[[1]]$text <- gsub("data", "Bin Result", p$data[[1]]$text)
-      p$data[[2]]$text <- gsub("data", "Bin Result", p$data[[2]]$text)
+      p[["data"]][[1]][["text"]] <- gsub("data", "Bin Result", p[["data"]][[1]][["text"]])
+      p[["data"]][[2]][["text"]] <- gsub("data", "Bin Result", p[["data"]][[2]][["text"]])
       p <- plot_ly(p)
     }
     
@@ -255,12 +255,12 @@ shinyServer(function(input, output, session) {
         labs(x="Pretest Probability", y="Positive Predictive Value")
       
       p <- plotly_build(ppv.plot)
-      p$data[[1]]$text <- gsub("y:", "Positive Predictive Value:", p$data[[1]]$text)
-      p$data[[1]]$text <- gsub("x:", "Pretest Probability:", p$data[[1]]$text)
-      p$data[[2]]$text <- gsub("y:.*", "", p$data[[2]]$text)
-      p$data[[2]]$text <- gsub("x:", "User Set Pretest Probability:", p$data[[2]]$text)
-      p$data[[3]]$text <- gsub(".*y:", "y:", p$data[[3]]$text)
-      p$data[[3]]$text <- gsub("y:", "Positive Predictive Value:", p$data[[3]]$text)
+      p[["data"]][[1]][["text"]] <- gsub("y:", "Positive Predictive Value:", p[["data"]][[1]][["text"]])
+      p[["data"]][[1]][["text"]] <- gsub("x:", "Pretest Probability:", p[["data"]][[1]][["text"]])
+      p[["data"]][[2]][["text"]] <- gsub("y:.*", "", p[["data"]][[2]][["text"]])
+      p[["data"]][[2]][["text"]] <- gsub("x:", "User Set Pretest Probability:", p[["data"]][[2]][["text"]])
+      p[["data"]][[3]][["text"]] <- gsub(".*y:", "y:", p[["data"]][[3]][["text"]])
+      p[["data"]][[3]][["text"]] <- gsub("y:", "Positive Predictive Value:", p[["data"]][[3]][["text"]])
       p <- plot_ly(p)
     }
     
@@ -295,12 +295,12 @@ shinyServer(function(input, output, session) {
         labs(x="Pretest Probability", y="Positive Predictive Value")
 
       p <- plotly_build(ppv.plot)
-      p$data[[1]]$text <- gsub("y:", "Positive Predictive Value:", p$data[[1]]$text)
-      p$data[[1]]$text <- gsub("x:", "Pretest Probability:", p$data[[1]]$text)
-      p$data[[2]]$text <- gsub("y:.*", "", p$data[[2]]$text)
-      p$data[[2]]$text <- gsub("x:", "User Set Pretest Probability:", p$data[[2]]$text)
-      p$data[[3]]$text <- gsub(".*y:", "y:", p$data[[3]]$text)
-      p$data[[3]]$text <- gsub("y:", "Positive Predictive Value:", p$data[[3]]$text)
+      p[["data"]][[1]][["text"]] <- gsub("y:", "Positive Predictive Value:", p[["data"]][[1]][["text"]])
+      p[["data"]][[1]][["text"]] <- gsub("x:", "Pretest Probability:", p[["data"]][[1]][["text"]])
+      p[["data"]][[2]][["text"]] <- gsub("y:.*", "", p[["data"]][[2]][["text"]])
+      p[["data"]][[2]][["text"]] <- gsub("x:", "User Set Pretest Probability:", p[["data"]][[2]][["text"]])
+      p[["data"]][[3]][["text"]] <- gsub(".*y:", "y:", p[["data"]][[3]][["text"]])
+      p[["data"]][[3]][["text"]] <- gsub("y:", "Positive Predictive Value:", p[["data"]][[3]][["text"]])
       p <- plot_ly(p)
     }
     
@@ -329,12 +329,12 @@ shinyServer(function(input, output, session) {
         labs(x="Pretest Probability", y="Negative Predictive Value")
 
       p <- plotly_build(npv.plot)
-      p$data[[1]]$text <- gsub("y:", "Negative Predictive Value:", p$data[[1]]$text)
-      p$data[[1]]$text <- gsub("x:", "Pretest Probability:", p$data[[1]]$text)
-      p$data[[2]]$text <- gsub("y:.*", "", p$data[[2]]$text)
-      p$data[[2]]$text <- gsub("x:", "User Set Pretest Probability:", p$data[[2]]$text)
-      p$data[[3]]$text <- gsub(".*y:", "y:", p$data[[3]]$text)
-      p$data[[3]]$text <- gsub("y:", "Negative Predictive Value:", p$data[[3]]$text)
+      p[["data"]][[1]][["text"]] <- gsub("y:", "Negative Predictive Value:", p[["data"]][[1]][["text"]])
+      p[["data"]][[1]][["text"]] <- gsub("x:", "Pretest Probability:", p[["data"]][[1]][["text"]])
+      p[["data"]][[2]][["text"]] <- gsub("y:.*", "", p[["data"]][[2]][["text"]])
+      p[["data"]][[2]][["text"]] <- gsub("x:", "User Set Pretest Probability:", p[["data"]][[2]][["text"]])
+      p[["data"]][[3]][["text"]] <- gsub(".*y:", "y:", p[["data"]][[3]][["text"]])
+      p[["data"]][[3]][["text"]] <- gsub("y:", "Negative Predictive Value:", p[["data"]][[3]][["text"]])
       p <- plot_ly(p)
     }
     
@@ -373,12 +373,12 @@ shinyServer(function(input, output, session) {
         labs(x="Pretest Probability", y="Negative Predictive Value")
       
       p <- plotly_build(npv.plot)
-      p$data[[1]]$text <- gsub("y:", "Negative Predictive Value:", p$data[[1]]$text)
-      p$data[[1]]$text <- gsub("x:", "Pretest Probability:", p$data[[1]]$text)
-      p$data[[2]]$text <- gsub("y:.*", "", p$data[[2]]$text)
-      p$data[[2]]$text <- gsub("x:", "User Set Pretest Probability:", p$data[[2]]$text)
-      p$data[[3]]$text <- gsub(".*y:", "y:", p$data[[3]]$text)
-      p$data[[3]]$text <- gsub("y:", "Negative Predictive Value:", p$data[[3]]$text)
+      p[["data"]][[1]][["text"]] <- gsub("y:", "Negative Predictive Value:", p[["data"]][[1]][["text"]])
+      p[["data"]][[1]][["text"]] <- gsub("x:", "Pretest Probability:", p[["data"]][[1]][["text"]])
+      p[["data"]][[2]][["text"]] <- gsub("y:.*", "", p[["data"]][[2]][["text"]])
+      p[["data"]][[2]][["text"]] <- gsub("x:", "User Set Pretest Probability:", p[["data"]][[2]][["text"]])
+      p[["data"]][[3]][["text"]] <- gsub(".*y:", "y:", p[["data"]][[3]][["text"]])
+      p[["data"]][[3]][["text"]] <- gsub("y:", "Negative Predictive Value:", p[["data"]][[3]][["text"]])
       p <- plot_ly(p)
     }
     
