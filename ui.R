@@ -15,7 +15,7 @@ shinyUI(
     
     br(),
 
-    p("This widget is meant to show the effect that changing clinical test accuracy, precision, sensitivity, and specificity has on other variables. You have to select whether to manipulate the characteristic statistics of the test (sensitivity and specificity) or the direct quantities (non-disease and disease mean and standard deviation, and the cutoff for a positive test). Whichever set you want to manipulate using the sliders, the other quantities will be calculated. More information is available at the bottom of this page. The plots should be intuitively interactive to provide specific values when hovered over."),
+    p("This widget is meant to show the effect that changing clinical test accuracy, precision, sensitivity, and specificity has on other variables. You have to select whether to manipulate the characteristic statistics of the test (sensitivity and specificity) or the direct quantities (non-disease and disease mean and standard deviation, and the cutoff for a positive test). Whichever set you want to manipulate using the sliders, the other quantities will be calculated. More information is available at the bottom of this page. The plots should be intuitively interactive; for example, hover over various points on the plot to get specific values."),
     
     br(),
     
