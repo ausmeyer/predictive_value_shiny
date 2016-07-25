@@ -1,4 +1,5 @@
 library(shiny)
+library(plotly)
 
 shinyUI(
   fluidPage(
@@ -6,8 +7,14 @@ shinyUI(
     # Application title
     title = "Predictive Value of Clinical Tests",
     
-    fluidRow(column(6, plotOutput('prevalencePlot')), column(3, plotOutput('ppvPlot')), column(3, plotOutput('npvPlot'))),
+    fluidRow(column(12, plotlyOutput('prevalencePlot'))),
     
+    br(),
+    
+    fluidRow(column(6, plotlyOutput('ppvPlot')), column(6, plotlyOutput('npvPlot'))),
+    
+    br(),
+
     p("This widget is meant to show the effect that changing clinical test accuracy, precision, sensitivity, and specificity has on other variables. You have to select whether to manipulate the characteristic statistics of the test (sensitivity and specificity) or the direct quantities (non-disease and disease mean and standard deviation, and the cutoff for a positive test). Whichever set you want to manipulate using the sliders, the other quantities will be calculated. More information is available at the bottom of this page."),
     
     br(),
@@ -53,7 +60,7 @@ shinyUI(
     fluidRow(
       column(3,
              sliderInput("no_disease_mean", "No Disease Mean",  
-                         min = 10, max = 30, value = 20, step = 0.01, width = '100%')
+                         min = 10, max = 40, value = 25, step = 0.01, width = '100%')
       ),
       column(3,
              sliderInput("no_disease_spread", "No Disease Spread",  
@@ -61,7 +68,7 @@ shinyUI(
       ),
       column(3,
              sliderInput("disease_mean", "Disease Mean",  
-                         min = 10, max = 30, value = 20, step = 0.01, width = '100%')
+                         min = 10, max = 40, value = 25, step = 0.01, width = '100%')
       ),
       column(3,
              sliderInput("disease_spread", "Disease Spread",  
