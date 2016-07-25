@@ -143,7 +143,6 @@ shinyServer(function(input, output, session) {
   
   renderPop.changedPop <- function() {
     library(ggplot2)
-    library(grid)
     library(plotly)
     
     prevalence.point <- dataInputFitSensSpec()$prev
@@ -181,7 +180,6 @@ shinyServer(function(input, output, session) {
   
   renderPop.constantPop <- function () {
     library(ggplot2)
-    library(grid)
     library(plotly)
     
     prevalence.point <- dataInputChangedSensSpec()$prev
@@ -243,7 +241,6 @@ shinyServer(function(input, output, session) {
   
   renderPPV.changedPop <- function() {
     library(ggplot2)
-    library(grid)
     library(plotly)
     
     plot.function <- function(prev, ppv, ppv.point) {
@@ -284,7 +281,6 @@ shinyServer(function(input, output, session) {
   
   renderPPV.constantPop <- function() {
     library(ggplot2)
-    library(grid)
     library(plotly)
     
     plot.function <- function(prev, ppv, ppv.point) {
@@ -319,7 +315,6 @@ shinyServer(function(input, output, session) {
   
   renderNPV.changedPop <- function() {
     library(ggplot2)
-    library(grid)
     library(plotly)
     
     plot.function <- function(prev, npv, npv.point) {
@@ -360,7 +355,6 @@ shinyServer(function(input, output, session) {
   
   renderNPV.constantPop <- function() {
     library(ggplot2)
-    library(grid)
     library(plotly)
     
     prevalence <- seq(0, 1, by = 0.01)
