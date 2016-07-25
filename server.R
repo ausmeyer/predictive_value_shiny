@@ -156,7 +156,7 @@ shinyServer(function(input, output, session) {
                                                       rep('No Disease', length(no.disease.distribution)))), 
                                 aes(x=data, fill=Groups)) + 
         geom_histogram(alpha = 0.2, position="identity", bins = 50) + 
-        geom_vline(xintercept = test_cutoff, linetype = 'solid', lwd = 0.3) +
+        geom_vline(xintercept = test_cutoff, linetype = 'solid', lwd = 0.5) +
         theme_bw() +
         theme(plot.margin = unit(c(0,1,0.5,1), "lines")) + 
         scale_fill_manual(values = c("No Disease" = "blue", "Disease" = "red")) +
@@ -196,7 +196,7 @@ shinyServer(function(input, output, session) {
                                                       rep('No Disease', length(no.disease.distribution)))), 
                                 aes(x=data, fill=Groups)) + 
         geom_histogram(alpha = 0.2, position="identity", bins = 50) + 
-        geom_vline(xintercept = test_cutoff, linetype = 'solid', lwd = 0.3) +
+        geom_vline(xintercept = test_cutoff, linetype = 'solid', lwd = 0.5) +
         theme_bw() +
         theme(plot.margin = unit(c(0,1,0.5,1), "lines")) + 
         scale_fill_manual(values = c("No Disease" = "blue", "Disease" = "red")) +
@@ -247,8 +247,8 @@ shinyServer(function(input, output, session) {
       data <- data.frame(x = prevalence, y = PPV)
       ppv.plot <- ggplot(data, aes(x = x, y = y)) + 
         geom_line(lwd = 0.4) +
-        geom_segment(x = prevalence.point, xend = prevalence.point, y = 0, yend = ppv.point, color = 'red', linetype = 'dotted') +
-        geom_segment(x = 0, xend = prevalence.point, y = ppv.point, yend = ppv.point, color = 'red', linetype = 'dotted') +
+        geom_segment(x = prevalence.point, xend = prevalence.point, y = 0, yend = ppv.point, color = 'red', linetype = 'dotted', size = 0.4) +
+        geom_segment(x = 0, xend = prevalence.point, y = ppv.point, yend = ppv.point, color = 'red', linetype = 'dotted', size = 0.4) +
         theme_bw() +
         theme(plot.margin = unit(c(0,1,0.5,1), "lines")) + 
         ylim(0, 1) + 
@@ -287,8 +287,8 @@ shinyServer(function(input, output, session) {
       data <- data.frame(x = prevalence, y = PPV)
       ppv.plot <- ggplot(data, aes(x = x, y = y)) + 
         geom_line(lwd = 0.4) +
-        geom_segment(x = prevalence.point, xend = prevalence.point, y = 0, yend = ppv.point, color = 'red', linetype = 'dotted') +
-        geom_segment(x = 0, xend = prevalence.point, y = ppv.point, yend = ppv.point, color = 'red', linetype = 'dotted') +
+        geom_segment(x = prevalence.point, xend = prevalence.point, y = 0, yend = ppv.point, color = 'red', linetype = 'dotted', size = 0.4) +
+        geom_segment(x = 0, xend = prevalence.point, y = ppv.point, yend = ppv.point, color = 'red', linetype = 'dotted', size = 0.4) +
         theme_bw() + 
         theme(plot.margin = unit(c(0,1,0.5,1), "lines")) + 
         ylim(0, 1) + 
@@ -321,8 +321,8 @@ shinyServer(function(input, output, session) {
       data <- data.frame(x = prevalence, y = NPV)
       npv.plot <- ggplot(data, aes(x = x, y = y)) + 
         geom_line(lwd = 0.4) +
-        geom_segment(x = prevalence.point, xend = prevalence.point, y = 0, yend = npv.point, color = 'red', linetype = 'dotted') +
-        geom_segment(x = 0, xend = prevalence.point, y = npv.point, yend = npv.point, color = 'red', linetype = 'dotted') +
+        geom_segment(x = prevalence.point, xend = prevalence.point, y = 0, yend = npv.point, color = 'red', linetype = 'dotted', size = 0.4) +
+        geom_segment(x = 0, xend = prevalence.point, y = npv.point, yend = npv.point, color = 'red', linetype = 'dotted', size = 0.4) +
         theme_bw() + 
         theme(plot.margin = unit(c(0,1,0.5,1), "lines")) + 
         ylim(0, 1) + 
@@ -365,8 +365,8 @@ shinyServer(function(input, output, session) {
       data <- data.frame(x = prevalence, y = NPV)
       npv.plot <- ggplot(data, aes(x = x, y = y)) + 
         geom_line(lwd = 0.4) +
-        geom_segment(x = prevalence.point, xend = prevalence.point, y = 0, yend = npv.point, color = 'red', linetype = 'dotted') +
-        geom_segment(x = 0, xend = prevalence.point, y = npv.point, yend = npv.point, color = 'red', linetype = 'dotted') +
+        geom_segment(x = prevalence.point, xend = prevalence.point, y = 0, yend = npv.point, color = 'red', linetype = 'dotted', size = 0.4) +
+        geom_segment(x = 0, xend = prevalence.point, y = npv.point, yend = npv.point, color = 'red', linetype = 'dotted', size = 0.4) +
         theme_bw() + 
         theme(plot.margin = unit(c(0,1,0.5,1), "lines")) + 
         ylim(0, 1) + 
