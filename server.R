@@ -152,13 +152,13 @@ shinyServer(function(input, output, session) {
     
     plot.function <- function(disease.distribution, no.disease.distribution, sens, spec, test_cutoff) {
       prevalence.plot <- ggplot(data.frame(data = c(disease.distribution, no.disease.distribution), 
-                                           Groups = c(rep('Disease', length(disease.distribution)), 
+                                           Group = c(rep('Disease', length(disease.distribution)), 
                                                       rep('No Disease', length(no.disease.distribution)))), 
-                                aes(x=data, fill=Groups)) + 
+                                aes(x=data, fill=Group)) + 
         geom_histogram(alpha = 0.2, position="identity", bins = 50) + 
         geom_vline(xintercept = test_cutoff, linetype = 'solid', lwd = 0.4) +
         theme_bw() +
-        theme(plot.margin = unit(c(0,1,0.5,1), "lines")) + 
+        theme(plot.margin = unit(c(0,1,0.5,1), "lines"), legend.position="none") + 
         scale_fill_manual(values = c("No Disease" = "blue", "Disease" = "red")) +
         scale_x_continuous(limits = c(-5, 55), breaks = seq(0, 50, by = 10)) +
         labs(x="Clinical Test Result", y="Number of Patients")
@@ -192,13 +192,13 @@ shinyServer(function(input, output, session) {
     
     plot.function <- function(disease.distribution, no.disease.distribution, sens, spec, test_cutoff) {
       prevalence.plot <- ggplot(data.frame(data = c(disease.distribution, no.disease.distribution), 
-                                           Groups = c(rep('Disease', length(disease.distribution)),
+                                           Group = c(rep('Disease', length(disease.distribution)),
                                                       rep('No Disease', length(no.disease.distribution)))), 
-                                aes(x=data, fill=Groups)) + 
+                                aes(x=data, fill=Group)) + 
         geom_histogram(alpha = 0.2, position="identity", bins = 50) + 
         geom_vline(xintercept = test_cutoff, linetype = 'solid', lwd = 0.4) +
         theme_bw() +
-        theme(plot.margin = unit(c(0,1,0.5,1), "lines")) + 
+        theme(plot.margin = unit(c(0,1,0.5,1), "lines"), legend.position="none") + 
         scale_fill_manual(values = c("No Disease" = "blue", "Disease" = "red")) +
         scale_x_continuous(limits = c(-5, 55), breaks = seq(0, 50, by = 10)) +
         labs(x="Clinical Test Result", y="Number of Patients")
