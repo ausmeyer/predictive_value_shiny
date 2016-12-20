@@ -14,10 +14,6 @@ shinyUI(
     fluidRow(column(6, plotlyOutput('ppvPlot')), column(6, plotlyOutput('npvPlot'))),
     
     br(),
-
-    p("This widget is meant to show the effect that changing clinical test accuracy, precision, sensitivity, and specificity has on other variables. You have to select whether to manipulate the characteristic statistics of the test (sensitivity and specificity) or the direct quantities (non-disease and disease mean and standard deviation, and the cutoff for a positive test). Whichever set you want to manipulate using the sliders, the other quantities will be calculated. More information is available at the bottom of this page. The plots should be intuitively interactive; for example, hover over various points on the plot to get specific values."),
-    
-    br(),
     
     fluidRow(
       column(4,
@@ -78,6 +74,10 @@ shinyUI(
     
     br(),
     br(),
+    
+    br(),
+    
+    p("This widget is meant to show the effect that changing clinical test accuracy, precision, sensitivity, and specificity has on other variables. You have to select whether to manipulate the characteristic statistics of the test (sensitivity and specificity) or the direct quantities (non-disease and disease mean and standard deviation, and the cutoff for a positive test). Whichever set you want to manipulate using the sliders, the other quantities will be calculated. The plots should be intuitively interactive; for example, hover over various points on the plot to get specific values."),
     
     strong("Further Technical Explanation:"),
     p("From a technical standpoint, the manipulated quantities are the target values for optimization of the other opposing variables; therefore, it is difficult to hit the exact targets specified. As a result, I provide the analytically calculated sensitivity and specificity above the population plot. In addition, I provide the positive predictive value and negative predictive value for the specified pretest probability above their respective plots. In either mode, it is always possible to change the population size and the pretest probability. The population plot on the left is just an example population that fits the specified parameters. In principle, there are infinitely many populations that are compatible with any particular test sensitivity and specificity. I recommend changing the population size only if you need a more accurate calculation. Otherwise, it will slow down the app some.")
