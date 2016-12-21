@@ -164,10 +164,11 @@ shinyServer(function(input, output, session) {
         scale_x_continuous(limits = c(-5, 55), breaks = seq(0, 50, by = 10)) +
         labs(x="Clinical Test Result", y="Number of Patients")
 
-      p <- plotly_build(prevalence.plot)
-      p$data[[1]]$text <- gsub("data", "Bin Result", p$data[[1]]$text)
-      p$data[[2]]$text <- gsub("data", "Bin Result", p$data[[2]]$text)
-      p <- plot_ly(p)
+#       p <- plotly_build(prevalence.plot)
+#       p$data[[1]]$text <- gsub("data", "Bin Result", p$data[[1]]$text)
+#       p$data[[2]]$text <- gsub("data", "Bin Result", p$data[[2]]$text)
+#       p <- plot_ly(p)
+      return(prevalence.plot)
     }
     
     sensitivity.local <- round(calc.metrics.changedPop()[1], digits = 3)
@@ -204,10 +205,12 @@ shinyServer(function(input, output, session) {
         scale_x_continuous(limits = c(-5, 55), breaks = seq(0, 50, by = 10)) +
         labs(x="Clinical Test Result", y="Number of Patients")
 
-      p <- plotly_build(prevalence.plot)
-      p$data[[1]]$text <- gsub("data", "Bin Result", p$data[[1]]$text)
-      p$data[[2]]$text <- gsub("data", "Bin Result", p$data[[2]]$text)
-      p <- plot_ly(p)
+#       p <- plotly_build(prevalence.plot)
+#       p$data[[1]]$text <- gsub("data", "Bin Result", p$data[[1]]$text)
+#       p$data[[2]]$text <- gsub("data", "Bin Result", p$data[[2]]$text)
+#       p <- plot_ly(p)
+      
+      return(prevalence.plot)
     }
     
     fn <- function(x) {
@@ -255,14 +258,16 @@ shinyServer(function(input, output, session) {
         ylim(0, 1) + 
         labs(x="Pretest Probability", y="Positive Predictive Value")
       
-      p <- plotly_build(ppv.plot)
-      p$data[[1]]$text <- gsub("y:", "Positive Predictive Value:", p$data[[1]]$text)
-      p$data[[1]]$text <- gsub("x:", "Pretest Probability:", p$data[[1]]$text)
-      p$data[[2]]$text <- gsub("y:.*", "", p$data[[2]]$text)
-      p$data[[2]]$text <- gsub("x:", "User Set Pretest Probability:", p$data[[2]]$text)
-      p$data[[3]]$text <- gsub(".*y:", "y:", p$data[[3]]$text)
-      p$data[[3]]$text <- gsub("y:", "Positive Predictive Value:", p$data[[3]]$text)
-      p <- plot_ly(p)
+#       p <- plotly_build(ppv.plot)
+#       p$data[[1]]$text <- gsub("y:", "Positive Predictive Value:", p$data[[1]]$text)
+#       p$data[[1]]$text <- gsub("x:", "Pretest Probability:", p$data[[1]]$text)
+#       p$data[[2]]$text <- gsub("y:.*", "", p$data[[2]]$text)
+#       p$data[[2]]$text <- gsub("x:", "User Set Pretest Probability:", p$data[[2]]$text)
+#       p$data[[3]]$text <- gsub(".*y:", "y:", p$data[[3]]$text)
+#       p$data[[3]]$text <- gsub("y:", "Positive Predictive Value:", p$data[[3]]$text)
+#       p <- plot_ly(p)
+      
+      return(ppv.plot)
     }
     
     prevalence <- seq(0, 1, by = 0.01)
@@ -295,14 +300,16 @@ shinyServer(function(input, output, session) {
         ylim(0, 1) + 
         labs(x="Pretest Probability", y="Positive Predictive Value")
 
-      p <- plotly_build(ppv.plot)
-      p$data[[1]]$text <- gsub("y:", "Positive Predictive Value:", p$data[[1]]$text)
-      p$data[[1]]$text <- gsub("x:", "Pretest Probability:", p$data[[1]]$text)
-      p$data[[2]]$text <- gsub("y:.*", "", p$data[[2]]$text)
-      p$data[[2]]$text <- gsub("x:", "User Set Pretest Probability:", p$data[[2]]$text)
-      p$data[[3]]$text <- gsub(".*y:", "y:", p$data[[3]]$text)
-      p$data[[3]]$text <- gsub("y:", "Positive Predictive Value:", p$data[[3]]$text)
-      p <- plot_ly(p)
+#       p <- plotly_build(ppv.plot)
+#       p$data[[1]]$text <- gsub("y:", "Positive Predictive Value:", p$data[[1]]$text)
+#       p$data[[1]]$text <- gsub("x:", "Pretest Probability:", p$data[[1]]$text)
+#       p$data[[2]]$text <- gsub("y:.*", "", p$data[[2]]$text)
+#       p$data[[2]]$text <- gsub("x:", "User Set Pretest Probability:", p$data[[2]]$text)
+#       p$data[[3]]$text <- gsub(".*y:", "y:", p$data[[3]]$text)
+#       p$data[[3]]$text <- gsub("y:", "Positive Predictive Value:", p$data[[3]]$text)
+#       p <- plot_ly(p)
+      
+      return(ppv.plot)
     }
     
     prevalence <- seq(0, 1, by = 0.01)
@@ -329,14 +336,16 @@ shinyServer(function(input, output, session) {
         ylim(0, 1) + 
         labs(x="Pretest Probability", y="Negative Predictive Value")
 
-      p <- plotly_build(npv.plot)
-      p$data[[1]]$text <- gsub("y:", "Negative Predictive Value:", p$data[[1]]$text)
-      p$data[[1]]$text <- gsub("x:", "Pretest Probability:", p$data[[1]]$text)
-      p$data[[2]]$text <- gsub("y:.*", "", p$data[[2]]$text)
-      p$data[[2]]$text <- gsub("x:", "User Set Pretest Probability:", p$data[[2]]$text)
-      p$data[[3]]$text <- gsub(".*y:", "y:", p$data[[3]]$text)
-      p$data[[3]]$text <- gsub("y:", "Negative Predictive Value:", p$data[[3]]$text)
-      p <- plot_ly(p)
+#       p <- plotly_build(npv.plot)
+#       p$data[[1]]$text <- gsub("y:", "Negative Predictive Value:", p$data[[1]]$text)
+#       p$data[[1]]$text <- gsub("x:", "Pretest Probability:", p$data[[1]]$text)
+#       p$data[[2]]$text <- gsub("y:.*", "", p$data[[2]]$text)
+#       p$data[[2]]$text <- gsub("x:", "User Set Pretest Probability:", p$data[[2]]$text)
+#       p$data[[3]]$text <- gsub(".*y:", "y:", p$data[[3]]$text)
+#       p$data[[3]]$text <- gsub("y:", "Negative Predictive Value:", p$data[[3]]$text)
+#       p <- plot_ly(p)
+      
+      return(npv.plot)
     }
     
     prevalence <- seq(0, 1, by = 0.01)
@@ -373,14 +382,15 @@ shinyServer(function(input, output, session) {
         ylim(0, 1) + 
         labs(x="Pretest Probability", y="Negative Predictive Value")
       
-      p <- plotly_build(npv.plot)
-      p$data[[1]]$text <- gsub("y:", "Negative Predictive Value:", p$data[[1]]$text)
-      p$data[[1]]$text <- gsub("x:", "Pretest Probability:", p$data[[1]]$text)
-      p$data[[2]]$text <- gsub("y:.*", "", p$data[[2]]$text)
-      p$data[[2]]$text <- gsub("x:", "User Set Pretest Probability:", p$data[[2]]$text)
-      p$data[[3]]$text <- gsub(".*y:", "y:", p$data[[3]]$text)
-      p$data[[3]]$text <- gsub("y:", "Negative Predictive Value:", p$data[[3]]$text)
-      p <- plot_ly(p)
+#       p <- plotly_build(npv.plot)
+#       p$data[[1]]$text <- gsub("y:", "Negative Predictive Value:", p$data[[1]]$text)
+#       p$data[[1]]$text <- gsub("x:", "Pretest Probability:", p$data[[1]]$text)
+#       p$data[[2]]$text <- gsub("y:.*", "", p$data[[2]]$text)
+#       p$data[[2]]$text <- gsub("x:", "User Set Pretest Probability:", p$data[[2]]$text)
+#       p$data[[3]]$text <- gsub(".*y:", "y:", p$data[[3]]$text)
+#       p$data[[3]]$text <- gsub("y:", "Negative Predictive Value:", p$data[[3]]$text)
+#       p <- plot_ly(p)
+      return(npv.plot)
     }
     
     NPV <- calc.NPV.constantPop()
@@ -391,14 +401,14 @@ shinyServer(function(input, output, session) {
   
   observeEvent(input$radio, {
     if(input$radio == 1) {
-      output$prevalencePlot <- renderPlotly(renderPop.constantPop())
-      output$ppvPlot <- renderPlotly(renderPPV.constantPop())
-      output$npvPlot <- renderPlotly(renderNPV.constantPop())
+      output$prevalencePlot <- renderPlot(renderPop.constantPop())
+      output$ppvPlot <- renderPlot(renderPPV.constantPop())
+      output$npvPlot <- renderPlot(renderNPV.constantPop())
     }
     if(input$radio == 2) {
-      output$prevalencePlot <- renderPlotly(renderPop.changedPop())
-      output$ppvPlot <- renderPlotly(renderPPV.changedPop())
-      output$npvPlot <- renderPlotly(renderNPV.changedPop())
+      output$prevalencePlot <- renderPlot(renderPop.changedPop())
+      output$ppvPlot <- renderPlot(renderPPV.changedPop())
+      output$npvPlot <- renderPlot(renderNPV.changedPop())
     }
   })
 })
